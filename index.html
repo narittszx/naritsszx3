@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narit Srimukda - Academic Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9', // Sky 500
+                        secondary: '#1e40af', // Blue 800
+                        light: '#f0f9ff', // Sky 50
+                        accent: '#38bdf8', // Sky 400
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .skill-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .skill-icon:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen relative overflow-x-hidden">
+
+    <!-- Background Decoration -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-[30rem] h-[30rem] bg-accent/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-card transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-secondary">PORTFOLIO.</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">ประวัติส่วนตัว</a>
+                        <a href="#education" class="hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">การศึกษา</a>
+                        <a href="#skills" class="hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">ความสามารถ</a>
+                        <a href="#contact" class="hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">ติดต่อ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Hero Section -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
+            <!-- Left Column: Profile Picture & Quote -->
+            <div class="md:col-span-5 lg:col-span-4 flex flex-col items-center">
+                <div class="relative w-64 h-64 md:w-full md:h-auto md:aspect-square mb-6 group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary to-accent rounded-full transform -rotate-6 group-hover:rotate-0 transition-transform duration-300 shadow-lg"></div>
+                    <img src="302bffb7-f77f-4957-a2c8-d3c98045039e.jpg" alt="Profile Picture" class="absolute inset-0 w-full h-full object-cover rounded-full border-4 border-white shadow-md z-10" style="object-position: top center;">
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 text-center w-full mt-4 border-t-4 border-primary">
+                    <h3 class="text-lg font-bold text-secondary mb-3 flex items-center justify-center gap-2">
+                        <i class="fas fa-quote-left text-primary/50 text-sm"></i>
+                        คติประจำใจ
+                        <i class="fas fa-quote-right text-primary/50 text-sm"></i>
+                    </h3>
+                    <p class="italic text-gray-600 font-medium leading-relaxed">
+                        " อย่าเปรียบเทียบบทเริ่มต้นของตัวเอง <br> กับบทที่สิบของคนอื่น "
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Column: Personal Info -->
+            <div class="md:col-span-7 lg:col-span-8 flex flex-col justify-center">
+                <div class="mb-2">
+                    <h2 class="text-sm font-bold tracking-widest text-primary uppercase mb-1">ประวัติส่วนตัว</h2>
+                    <h1 class="text-5xl md:text-6xl font-black text-secondary uppercase tracking-tight mb-6">Profile</h1>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+                    <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-gray-100 pb-3 mb-6 inline-block">ข้อมูลส่วนตัว</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-lg">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-user mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">ชื่อ-สกุล:</span> นายนริศ ศรีมุกดา</div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-tag mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">ชื่อเล่น:</span> คริสต์</div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-calendar mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">อายุ:</span> 18 ปี</div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-flag mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">สัญชาติ/เชื้อชาติ:</span> ไทย / ไทย</div>
+                        </div>
+                        <div class="flex items-start gap-3 sm:col-span-2">
+                            <i class="fas fa-book mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">วิชาที่ชอบ:</span> ชีววิทยา, คอมพิวเตอร์</div>
+                        </div>
+                        <div class="flex items-start gap-3 sm:col-span-2">
+                            <i class="fas fa-gamepad mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">งานอดิเรก:</span> อ่านหนังสือ, เล่นเกม</div>
+                        </div>
+                        <div class="flex items-start gap-3 sm:col-span-2">
+                            <i class="fas fa-home mt-1 text-primary w-5 text-center"></i>
+                            <div><span class="font-semibold text-gray-700">ที่อยู่ปัจจุบัน:</span> 71 หมู่ 5 บ้านเพ็กใหญ่ ตำบลเพ็กใหญ่ อำเภอพล จังหวัด ขอนแก่น</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            
+            <div class="space-y-8">
+                <!-- Family Background -->
+                <div class="glass-card rounded-3xl p-8 shadow-sm">
+                    <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center gap-3">
+                        <div class="bg-secondary text-white p-2 rounded-lg"><i class="fas fa-users w-5 h-5 flex items-center justify-center"></i></div>
+                        ประวัติครอบครัว
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <p class="text-lg"><span class="font-semibold text-gray-700">บิดาชื่อ:</span> นายวิโรจน์ ศรีมุกดา</p>
+                            <p class="text-gray-600">อายุ: 51 ปี &nbsp;|&nbsp; อาชีพ: รับราชการ</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <p class="text-lg"><span class="font-semibold text-gray-700">มารดาชื่อ:</span> นางเย็นฤดี ศรีมุกดา</p>
+                            <p class="text-gray-600">อายุ: 49 ปี &nbsp;|&nbsp; อาชีพ: รับราชการ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div id="contact" class="glass-card rounded-3xl p-8 shadow-sm border-t-4 border-secondary scroll-mt-24">
+                    <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center gap-3">
+                        <div class="bg-secondary text-white p-2 rounded-lg"><i class="fas fa-address-book w-5 h-5 flex items-center justify-center"></i></div>
+                        ช่องทางการติดต่อ
+                    </h3>
+                    <ul class="space-y-4 text-lg">
+                        <li>
+                            <a href="#" class="flex items-center gap-4 text-gray-700 hover:text-green-500 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-500 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                    <i class="fab fa-line text-xl"></i>
+                                </div>
+                                <span>narit125</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-4 text-gray-700 hover:text-blue-600 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <i class="fab fa-facebook-f text-xl"></i>
+                                </div>
+                                <span>Narit Srimukda</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-4 text-gray-700 hover:text-pink-500 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center group-hover:bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 group-hover:text-white transition-colors">
+                                    <i class="fab fa-instagram text-xl"></i>
+                                </div>
+                                <span>k_krist125</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:0821495477" class="flex items-center gap-4 text-gray-700 hover:text-gray-900 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center group-hover:bg-gray-600 group-hover:text-white transition-colors">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <span>082-149-5477</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:narit521776@gmail.com" class="flex items-center gap-4 text-gray-700 hover:text-red-500 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white transition-colors">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span class="break-all">narit521776@gmail.com</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Education -->
+                <div id="education" class="glass-card rounded-3xl p-8 shadow-sm scroll-mt-24">
+                    <div class="text-center mb-8">
+                        <h2 class="text-sm font-bold tracking-widest text-primary uppercase mb-1">ประวัติการศึกษา</h2>
+                        <h3 class="text-4xl font-black text-secondary uppercase tracking-wider">Education</h3>
+                        <div class="text-xs tracking-widest text-gray-400 uppercase mt-1">Background</div>
+                        <div class="w-24 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+                    </div>
+
+                    <div class="relative border-l-2 border-primary/30 ml-4 space-y-8 pb-4">
+                        <!-- Edu 1 -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-white border-4 border-primary shadow-sm"></div>
+                            <div class="bg-light p-5 rounded-2xl border border-blue-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                                <div class="absolute top-0 right-0 p-4 opacity-10">
+                                    <i class="fas fa-graduation-cap text-6xl text-primary"></i>
+                                </div>
+                                <h4 class="text-lg font-bold text-secondary mb-1">ระดับชั้นประถมศึกษาปีที่ 1-6</h4>
+                                <p class="text-gray-600">ศึกษาที่โรงเรียนมหาไถ่ศึกษาเมืองพล</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Edu 2 -->
+                        <div class="relative pl-8">
+                            <div class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-white border-4 border-secondary shadow-sm"></div>
+                            <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                                 <div class="absolute top-0 right-0 p-4 opacity-10">
+                                    <i class="fas fa-school text-6xl text-secondary"></i>
+                                </div>
+                                <h4 class="text-lg font-bold text-secondary mb-1">ระดับชั้นมัธยมศึกษาปีที่ 1-6</h4>
+                                <p class="text-sm text-primary font-semibold mb-1">ปีการศึกษา 2568</p>
+                                <p class="text-gray-600">ศึกษาที่ โรงเรียนเมืองพลพิทยาคม</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div id="skills" class="glass-card rounded-3xl p-8 shadow-sm scroll-mt-24">
+                    <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center gap-3">
+                        <div class="text-primary"><i class="fas fa-star text-3xl"></i></div>
+                        ความสามารถพิเศษ
+                    </h3>
+                    
+                    <ul class="list-none space-y-3 mb-8 text-lg text-gray-700">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-primary mt-1"></i>
+                            การรับหน้าที่เป็นพิธีกรงานต่างๆ
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-primary mt-1"></i>
+                            การใช้งานโปรแกรมคอมพิวเตอร์
+                        </li>
+                    </ul>
+
+                    <div class="mt-6">
+                        <p class="text-sm font-semibold text-gray-500 uppercase mb-4 tracking-wider">Software & Tools</p>
+                        <!-- Software Icons (Represented visually using FontAwesome and simple styling to mimic the logos) -->
+                        <div class="flex flex-wrap gap-4 justify-center sm:justify-start">
+                            
+                            <!-- Canva (Conceptual) -->
+                            <div class="skill-icon w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-400 to-purple-500 flex items-center justify-center text-white font-bold text-xs shadow-md" title="Canva">
+                                Canva
+                            </div>
+                            
+                            <!-- CapCut (Conceptual) -->
+                            <div class="skill-icon w-14 h-14 rounded-full bg-black flex items-center justify-center text-white font-bold shadow-md" title="CapCut">
+                                <i class="fas fa-cut text-xl"></i>
+                            </div>
+
+                            <!-- Photoshop -->
+                            <div class="skill-icon w-14 h-14 rounded-xl bg-[#001E36] border-2 border-[#31A8FF] flex items-center justify-center text-[#31A8FF] font-bold text-xl shadow-md" title="Photoshop">
+                                Ps
+                            </div>
+
+                            <!-- Premiere Pro -->
+                            <div class="skill-icon w-14 h-14 rounded-xl bg-[#00005C] border-2 border-[#E996FA] flex items-center justify-center text-[#E996FA] font-bold text-xl shadow-md" title="Premiere Pro">
+                                Pr
+                            </div>
+
+                            <!-- C++ -->
+                            <div class="skill-icon w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md" title="C++">
+                                <i class="fas fa-code"></i><span class="text-xs">++</span>
+                            </div>
+
+                            <!-- Python -->
+                            <div class="skill-icon w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center shadow-md" title="Python">
+                                <i class="fab fa-python text-3xl text-[#3776AB]"></i>
+                            </div>
+                            
+                            <!-- 3D/SketchUp (Conceptual) -->
+                            <div class="skill-icon w-14 h-14 rounded-md bg-blue-500 flex items-center justify-center text-white shadow-md" title="3D Modeling">
+                                <i class="fas fa-cube text-2xl"></i>
+                            </div>
+
+                            <!-- Tinkercad (Conceptual) -->
+                            <div class="skill-icon w-14 h-14 rounded-lg bg-white border-2 border-orange-500 flex flex-col items-center justify-center text-orange-500 shadow-md p-1 leading-none" title="Tinkercad">
+                                <span class="text-[8px] font-bold">TIN</span>
+                                <span class="text-[8px] font-bold text-green-500">KER</span>
+                                <span class="text-[8px] font-bold text-blue-500">CAD</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-secondary text-white py-8 mt-12 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-blue-200 text-sm">
+                &copy; <script>document.write(new Date().getFullYear())</script> Narit Srimukda. Academic Portfolio.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+                nav.classList.add('bg-white/95');
+                nav.classList.remove('bg-white/50');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.add('bg-white/50');
+                nav.classList.remove('bg-white/95');
+            }
+        });
+    </script>
+</body>
+</html>
