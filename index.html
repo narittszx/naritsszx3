@@ -116,6 +116,61 @@
             background: linear-gradient(to bottom, var(--color-primary), var(--color-accent));
             opacity: 0.3;
         }
+
+        /* Edit Mode Styles */
+        body.edit-mode-on [contenteditable="true"] {
+            outline: 2px dashed var(--color-accent);
+            outline-offset: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        body.edit-mode-on [contenteditable="true"]:focus {
+            outline: 2px solid var(--color-primary);
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        body.edit-mode-on img, body.edit-mode-on a:not(.nav-link):not(.no-edit) {
+            outline: 3px solid #f59e0b; /* Orange outline for clickables */
+            outline-offset: 2px;
+            cursor: pointer !important;
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        body.edit-mode-on img:hover, body.edit-mode-on a:not(.nav-link):not(.no-edit):hover {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+            transform: scale(1.02);
+        }
+        
+        /* Custom Edit Modal */
+        .custom-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .custom-modal-backdrop.show {
+            display: flex;
+            opacity: 1;
+        }
+        .custom-modal {
+            background: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 28rem;
+            padding: 2rem;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .custom-modal-backdrop.show .custom-modal {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-primary selection:text-white">
@@ -544,6 +599,52 @@
         </footer>
     </main>
 
+    <!-- Floating Edit Mode Button -->
+    <button id="edit-mode-toggle" class="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-110 transition-all z-50 no-edit border-4 border-white tooltip group" title="เปิดโหมดแก้ไขหน้าเว็บ">
+        <i class="fas fa-pen"></i>
+        <!-- Tooltip text -->
+        <span class="absolute right-16 bg-gray-900 text-white text-sm px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            แก้ไขหน้าเว็บ
+        </span>
+    </button>
+
+    <!-- Custom Edit Modal (Popup) -->
+    <div id="edit-modal" class="custom-modal-backdrop">
+        <div class="custom-modal">
+            <h3 id="edit-modal-title" class="text-2xl font-bold text-secondary mb-4 flex items-center gap-2">
+                <i class="fas fa-edit text-primary"></i> แก้ไขข้อมูล
+            </h3>
+            
+            <!-- URL Input -->
+            <div class="mb-4">
+                <label id="edit-modal-label" class="block text-sm font-medium text-textMain mb-2">ลิงก์ / URL:</label>
+                <input type="text" id="edit-modal-input" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm">
+            </div>
+
+            <!-- Image File Upload (Shown only for images) -->
+            <div id="edit-modal-file-group" class="mb-6 hidden">
+                <div class="flex items-center justify-center w-full">
+                    <label for="edit-modal-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-primary/5 transition-colors group">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2 group-hover:text-primary transition-colors"></i>
+                            <p class="text-sm text-gray-500"><span class="font-semibold">คลิกเพื่ออัปโหลดไฟล์รูป</span> (จากเครื่อง)</p>
+                        </div>
+                        <input id="edit-modal-file" type="file" class="hidden" accept="image/*" />
+                    </label>
+                </div>
+                <p class="text-xs text-textMuted mt-2 text-center bg-yellow-50 p-2 rounded-lg text-yellow-700">
+                    * หมายเหตุ: การแก้ไขบนหน้านี้เป็นการจำลองเพื่อดูตัวอย่างเท่านั้น หากต้องการบันทึกถาวรต้องนำลิงก์ไปใส่ในไฟล์ Code
+                </p>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="edit-modal-cancel" class="px-6 py-2.5 rounded-xl font-medium text-textMain bg-gray-100 hover:bg-gray-200 transition-colors">ยกเลิก</button>
+                <button id="edit-modal-save" class="px-6 py-2.5 rounded-xl font-medium text-white bg-primary hover:bg-blue-700 transition-colors shadow-lg shadow-primary/30">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 1. Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
@@ -650,6 +751,152 @@
                 }
             });
         });
+
+        // ==========================================
+        // 6. Edit Mode System (ระบบแก้ไขหน้าเว็บ)
+        // ==========================================
+        const editToggleBtn = document.getElementById('edit-mode-toggle');
+        const editModal = document.getElementById('edit-modal');
+        const editModalInput = document.getElementById('edit-modal-input');
+        const editModalFileGroup = document.getElementById('edit-modal-file-group');
+        const editModalFileInput = document.getElementById('edit-modal-file');
+        const editModalTitle = document.getElementById('edit-modal-title');
+        const editModalLabel = document.getElementById('edit-modal-label');
+        
+        let isEditMode = false;
+        let currentEditElement = null;
+        let currentEditType = null; // 'link' หรือ 'image'
+
+        // กำหนด HTML Element ที่อนุญาตให้พิมพ์แก้ไขข้อความได้
+        const textSelectors = 'h1, h2, h3, h4, h5, p:not(.no-edit), span:not(.typing-cursor), li';
+
+        editToggleBtn.addEventListener('click', () => {
+            isEditMode = !isEditMode;
+            document.body.classList.toggle('edit-mode-on', isEditMode);
+            
+            // เปลี่ยนไอคอนและสีปุ่มเมื่อเปิด/ปิด
+            if(isEditMode) {
+                editToggleBtn.innerHTML = '<i class="fas fa-check"></i>';
+                editToggleBtn.classList.remove('bg-primary');
+                editToggleBtn.classList.add('bg-green-500');
+            } else {
+                editToggleBtn.innerHTML = '<i class="fas fa-pen"></i>';
+                editToggleBtn.classList.remove('bg-green-500');
+                editToggleBtn.classList.add('bg-primary');
+            }
+
+            // จัดการเรื่องการแก้ไขข้อความ (Content Editable)
+            document.querySelectorAll(textSelectors).forEach(el => {
+                // ข้ามส่วนประกอบ UI ที่ไม่ควรแก้ไข
+                if(el.closest('nav') || el.closest('button') || el.classList.contains('fas') || el.classList.contains('fab') || el.id === 'typewriter') return;
+                
+                // ให้แก้ได้เฉพาะ tag ที่มี text อยู่ด้านในตรงๆ
+                if(el.children.length === 0 || (el.childNodes.length > 0 && el.childNodes[0].nodeType === 3)) {
+                    el.contentEditable = isEditMode;
+                }
+            });
+
+            if(isEditMode) {
+                showToast("✅ เปิดโหมดแก้ไขแล้ว! (คลิกที่ข้อความ รูปภาพ หรือลิงก์เพื่อแก้ไข)");
+            } else {
+                showToast("ปิดโหมดแก้ไขเรียบร้อย");
+            }
+        });
+
+        // ดักจับการคลิกเพื่อเปิด Popup แก้ไข (สำหรับลิงก์ และรูปภาพ)
+        document.addEventListener('click', (e) => {
+            if (!isEditMode) return;
+            
+            const link = e.target.closest('a');
+            if (link && !link.classList.contains('nav-link') && !link.closest('#edit-modal')) {
+                e.preventDefault(); // ป้องกันไม่ให้ลิงก์ทำงานเปลี่ยนหน้า
+                openEditModal(link, 'link');
+                return;
+            }
+
+            const img = e.target.closest('img');
+            if (img && !img.closest('#edit-modal')) {
+                e.preventDefault();
+                openEditModal(img, 'image');
+                return;
+            }
+        });
+
+        // ฟังก์ชันเปิด Popup
+        function openEditModal(element, type) {
+            currentEditElement = element;
+            currentEditType = type;
+
+            if (type === 'link') {
+                editModalTitle.innerHTML = '<i class="fas fa-link text-primary"></i> แก้ไขลิงก์';
+                editModalLabel.textContent = 'ระบุ URL ปลายทาง (URL):';
+                editModalInput.value = element.getAttribute('href') || '#';
+                editModalFileGroup.classList.add('hidden'); // ซ่อนส่วนอัปโหลดรูป
+            } else if (type === 'image') {
+                editModalTitle.innerHTML = '<i class="fas fa-image text-primary"></i> แก้ไขรูปภาพ';
+                editModalLabel.textContent = 'วางลิงก์รูปภาพใหม่ (URL):';
+                editModalInput.value = element.getAttribute('src') || '';
+                editModalFileGroup.classList.remove('hidden'); // แสดงส่วนอัปโหลดรูป
+                editModalFileInput.value = ''; 
+            }
+
+            editModal.classList.add('show');
+        }
+
+        // ปิด Popup
+        document.getElementById('edit-modal-cancel').addEventListener('click', () => {
+            editModal.classList.remove('show');
+            currentEditElement = null;
+        });
+
+        // ระบบแปลงรูปภาพจากเครื่องให้แสดงผลชั่วคราว (Base64/Data URL)
+        editModalFileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    editModalInput.value = event.target.result; 
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // บันทึกการแก้ไข (ลิงก์/รูปภาพ)
+        document.getElementById('edit-modal-save').addEventListener('click', () => {
+            if (!currentEditElement) return;
+
+            const newValue = editModalInput.value.trim();
+            if (newValue) {
+                if (currentEditType === 'link') {
+                    currentEditElement.setAttribute('href', newValue);
+                } else if (currentEditType === 'image') {
+                    currentEditElement.setAttribute('src', newValue);
+                }
+            }
+
+            editModal.classList.remove('show');
+            currentEditElement = null;
+            showToast("✅ อัปเดตข้อมูลสำเร็จ!");
+        });
+
+        // ระบบแจ้งเตือน (Toast Notification) แทนการใช้ Alert
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-xl z-[9999] transition-all duration-300 transform translate-y-[-20px] opacity-0 text-sm md:text-base font-medium border border-gray-700';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Animation In
+            setTimeout(() => {
+                toast.classList.remove('translate-y-[-20px]', 'opacity-0');
+            }, 10);
+
+            // Animation Out after 3s
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-20px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
